@@ -30,13 +30,13 @@ namespace TastebudsGalore.Controllers
         public IActionResult Index()
         {
             CartItemCount();
-            return View(Pizza.PizzaTypes);
+            return View(Pizza.Pizzas);
         }
 
         public IActionResult Details(int id)
         {
             CartItemCount();
-            var item = Pizza.PizzaTypes.SingleOrDefault(i => i.Id == id);
+            var item = Pizza.Stock.SingleOrDefault(i => i.Id == id);
             if (item != null)
             {
                 return View(item);
@@ -58,13 +58,13 @@ namespace TastebudsGalore.Controllers
 
         public IActionResult AddToCart(int itemId)
         {
-            var item = Pizza.PizzaTypes.SingleOrDefault(i => i.ItemId == itemId);
+            var item = Pizza.Stock.SingleOrDefault(i => i.Id == itemId);
 
             if (item != null)
             {
                 var cartItem = new CartItem
                 {
-                    Item = item.item,
+                    Item = item,
                     Quantity = 1
                 };
                 _Cart.addItem(cartItem);
