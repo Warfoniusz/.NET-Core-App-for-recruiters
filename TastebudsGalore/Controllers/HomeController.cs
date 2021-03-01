@@ -74,8 +74,17 @@ namespace TastebudsGalore.Controllers
 
         public IActionResult RemoveFromCart(int itemId)
         {
+            
             _Cart.removeItem(itemId);
-            return RedirectToAction("Index");
+            bool isEmpty = !_Cart.CartItems.Any();
+            if (!isEmpty)
+            {
+                return RedirectToAction("ShowCart");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
         
         public IActionResult Privacy()
