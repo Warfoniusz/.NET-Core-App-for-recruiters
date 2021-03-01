@@ -51,7 +51,7 @@ namespace TastebudsGalore.Controllers
         {
             var cartVM = new CartViewModel();
             cartVM.CartItems = _Cart.CartItems;
-            cartVM.= _Cart.CartItems.Sum(c => c.getTotalPrice());
+            cartVM.OrderTotal= _Cart.CartItems.Sum(c => c.getTotalPrice());
             CartItemCount();
             return View("Cart", cartVM);
         }
