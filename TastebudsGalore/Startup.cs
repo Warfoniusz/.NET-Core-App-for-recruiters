@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using TastebudsGalore.Data;
 
 namespace TastebudsGalore
 {
@@ -24,6 +26,8 @@ namespace TastebudsGalore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            var connectionString = @"Server=(localdb)\mssqllocaldb;Database=Pizzabase;Trusted_Connection=true;ConnectRetryCount=0";
+            services.AddDbContext<PizzaContext>(options => options.UseSqlServer(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

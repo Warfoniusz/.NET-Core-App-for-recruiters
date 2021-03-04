@@ -12,8 +12,13 @@ namespace TastebudsGalore.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private PizzaContext _context;
         private static Cart _Cart = new Cart();
+
+        public HomeController(PizzaContext context)
+        {
+            _context = context;
+        }
 
 
         public void CartItemCount()
@@ -22,24 +27,25 @@ namespace TastebudsGalore.Controllers
             ViewData["Shopping Cart Quantity"] = total;
         }
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
             CartItemCount();
-            return View(Pizza.Pizzas);
+            var products = _context.Products.ToList();
+            return View(products);
         }
 
         public IActionResult Details(int id)
         {
             CartItemCount();
-            var item = Pizza.Stock.SingleOrDefault(i => i.Id == id);
-            if (item != null)
+            var product = _context.Products.SingleOrDefault(p => p.Id == id);
+            var vm = new DetailsViewModel
             {
-                return View(item);
+                Product = product
+            };
+
+            if (product != null)
+            {
+                return View(vm);
             }
             else
             {
@@ -58,13 +64,13 @@ namespace TastebudsGalore.Controllers
 
         public IActionResult AddToCart(int itemId)
         {
-            var item = Pizza.Stock.SingleOrDefault(i => i.Id == itemId);
+            var product = _context.Products.SingleOrDefault(p => p.ItemId == itemId);
 
-            if (item != null)
+            if (product != null)
             {
                 var cartItem = new CartItem
                 {
-                    Item = item,
+                    Item = product.Item,
                     Quantity = 1
                 };
                 _Cart.addItem(cartItem);
