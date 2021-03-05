@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TastebudsGalore.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TastebudsGalore
 {
@@ -28,6 +29,7 @@ namespace TastebudsGalore
             services.AddControllersWithViews();
             var connectionString = @"Server=(localdb)\mssqllocaldb;Database=Pizzabase;Trusted_Connection=true;ConnectRetryCount=0";
             services.AddDbContext<PizzaContext>(options => options.UseSqlServer(connectionString));
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,12 +51,14 @@ namespace TastebudsGalore
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
