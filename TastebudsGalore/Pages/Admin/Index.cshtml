@@ -4,6 +4,26 @@
     ViewData["Title"] = "Admin Home";
 }
 
-<h3>Sup</h3>
+<h3>This is the admin home page.</h3>
 
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pizza in Model.PizzaTypes)
+        {
+            <tr>
+                <td>@pizza.Name</td>
+                <td>@pizza.Description</td>
+                <td>@pizza.Item.Price.ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
